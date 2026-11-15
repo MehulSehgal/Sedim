@@ -116,11 +116,15 @@ async function tryFetch(url: string): Promise<string | null> {
 
 // ── Substitution variables ────────────────────────────────────
 
-// Strips .js extensions from relative imports so bundlers (Next.js Turbopack,
-// Vite, webpack) can resolve them. Only touches imports starting with ./ or ../
-// to avoid breaking third-party package imports like 'drizzle-orm/neon-http'.
-function stripRelativeJsExtensions(content: string): string {
-  return content.replace(/(from\s+['"])(\.\.?\/[^'"]*?)\.js(['"])/g, '$1$2$3')
+// Strips .js extensions from relative imports (static, dynamic, and side-effect)
+// so bundlers (Next.js Turbopack, Vite, webpack) can resolve them. Only touches
+// imports starting with ./ or ../ to avoid breaking third-party package imports
+// like 'drizzle-orm/neon-http' or 'argon2'.
+export function stripRelativeJsExtensions(content: string): string {
+  return content.replace(
+    /((?:from\s+|import\s*\(\s*|import\s+)['"`])(\.\.?\/[^'"`]*?)\.js(['"`])/g,
+    '$1$2$3',
+  )
 }
 
 function applySubstitutions(

@@ -15,14 +15,14 @@ export default defineConfig({
         // cli package tests
         test: {
           name: 'cli',
-          include: ['packages/cli/__tests__/**/*.test.ts'],
+          include: ['packages/cli/tests/**/*.test.ts', 'packages/cli/__tests__/**/*.test.ts'],
           environment: 'node',
         },
       },
       {
         test: {
           name: 'auth',
-          include: ['packages/auth/tests/**/*.test.ts'],
+          include: ['packages/auth/tests/**/*.test.ts', 'packages/auth/src/__tests__/**/*.test.ts'],
           environment: 'node',
         },
       },
